@@ -21,6 +21,17 @@ img{display:block;max-width:100%}
 .nav-link{padding:6px 10px;font-size:15px;color:#9ca3af;border-radius:6px;text-decoration:none}
 .nav-link:hover{background:#2a2a2a;color:#e2e8f0;text-decoration:none}
 
+/* Hamburger (mobile only) */
+.nav-toggle{display:none;flex-direction:column;align-items:center;justify-content:center;width:40px;height:40px;padding:0;background:transparent;border:1px solid #444;border-radius:8px;cursor:pointer}
+.nav-toggle:hover{background:#2a2a2a;border-color:#5a8fc2}
+.nav-toggle:focus-visible{outline:2px solid #5a8fc2;outline-offset:2px}
+.nav-toggle span{display:block;width:18px;height:2px;background:#e2e8f0;border-radius:2px;transition:transform .2s,opacity .2s}
+.nav-toggle span + span{margin-top:4px}
+.nav-toggle[aria-expanded="true"] span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.nav-toggle[aria-expanded="true"] span:nth-child(2){opacity:0}
+.nav-toggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+.nav-menu{display:flex;flex-wrap:wrap;gap:4px 6px;align-items:center}
+
 /* Hero buttons */
 .hero-btn{display:inline-flex;align-items:center;padding:7px 14px;font-size:13.5px;font-weight:600;color:#e2e8f0;background:#222;border:1px solid #444;border-radius:6px;text-decoration:none;transition:background .15s,border-color .15s}
 .hero-btn:hover{background:#5a8fc2;border-color:#5a8fc2;color:#fff;text-decoration:none}
@@ -128,6 +139,18 @@ a.affil:focus-visible{outline:2px solid #5a8fc2;outline-offset:2px}
 
 /* Responsive */
 @media(max-width:768px){
+  /* Collapse the nav links behind a hamburger */
+  .nav-toggle{display:flex}
+  .nav-menu{
+    display:none;
+    position:absolute;top:100%;right:16px;
+    flex-direction:column;align-items:stretch;
+    min-width:190px;padding:8px;
+    background:#1f1f1f;border:1px solid #3a3a3a;border-radius:10px;
+    box-shadow:0 12px 30px rgba(0,0,0,0.5);
+  }
+  .nav-menu[data-open="true"]{display:flex}
+  .nav-menu .nav-link{padding:11px 12px;font-size:16px;border-radius:6px}
   .hero-inner{padding:40px 24px!important}
   .about-grid{grid-template-columns:1fr!important}
   .info-grid{grid-template-columns:1fr!important}
@@ -145,10 +168,13 @@ a.affil:focus-visible{outline:2px solid #5a8fc2;outline-offset:2px}
 
 <!-- ============ NAV ============ -->
 <header style="position:sticky;top:0;z-index:50;background:rgba(24,24,24,0.92);backdrop-filter:blur(8px);border-bottom:1px solid #333">
-  <nav style="max-width:1120px;margin:0 auto;padding:14px 24px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 24px">
+  <nav style="position:relative;max-width:1120px;margin:0 auto;padding:14px 24px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 24px">
     <a href="#top" style="font-family:'Source Serif 4',serif;font-size:19px;font-weight:600;color:#e2e8f0;letter-spacing:-0.01em;text-decoration:none">Visweshwaran R.</a>
     <div style="flex:1 1 20px"></div>
-    <div style="display:flex;flex-wrap:wrap;gap:4px 6px;align-items:center">
+    <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-menu" id="nav-menu">
       <a href="#about" class="nav-link">About</a>
       <a href="#projects" class="nav-link">Projects</a>
       <a href="#research" class="nav-link">Research</a>
@@ -206,7 +232,7 @@ a.affil:focus-visible{outline:2px solid #5a8fc2;outline-offset:2px}
       <div>
         <h2 class="section-title">About</h2>
         <p style="margin:0 0 14px;font-size:17px;line-height:1.65;color:#cbd5e1">I am a hydrologist working on data-driven methods for environmental and water systems. My research combines hydrological and hydrodynamic modelling, data assimilation, GIS, and remote sensing with machine learning to improve forecasting.</p>
-        <p style="margin:0 0 14px;font-size:17px;line-height:1.65;color:#cbd5e1">I am currently a Postdoctoral Researcher and Data Assimilation Lead at the Data Driven Computing in Civil Engineering (DCC) group, RWTH Aachen University. Before Aachen, I was an NCEO fellow at the University of Reading, where I carried out the first state–parameter assimilation for the JULES land surface model using hybrid En-Var assimilation of COSMOS-UK soil moisture observations. I also assimilated streamflow into CaMa-Flood to improve UK flood inundation forecasts.</p>
+        <p style="margin:0 0 14px;font-size:17px;line-height:1.65;color:#cbd5e1">I am currently a Postdoctoral Researcher and Data Assimilation Lead at the Data Driven Computing in Civil Engineering (DCC) group, RWTH Aachen University. Alongside this, I work as Lead Technical Consultant in Data Assimilation &amp; Hydro-Hazard for Bhumi Zero-Carbon. Before Aachen, I was an NCEO fellow at the University of Reading, where I carried out the first state–parameter assimilation for the JULES land surface model using hybrid En-Var assimilation of COSMOS-UK soil moisture observations. I also assimilated streamflow into CaMa-Flood to improve UK flood inundation forecasts.</p>
         <p style="margin:0 0 20px;font-size:17px;line-height:1.65;color:#cbd5e1">I hold a PhD in Remote Sensing from IIT Bombay. My thesis developed efficient assimilation strategies for hydrological models.</p>
         <p style="margin:0 0 24px;font-size:16px;line-height:1.6;color:#9ca3af">My full curriculum vitae, with the complete list of publications, awards, and service, is available as a <a href="Viswesh_CV.pdf" style="font-weight:600">PDF download</a>.</p>
 
@@ -374,7 +400,7 @@ a.affil:focus-visible{outline:2px solid #5a8fc2;outline-offset:2px}
       </button>
 
       <button type="button" class="project-card" data-project="wetlands">
-        <div class="img-placeholder"><span>wetlands image 1200×750</span></div>
+        <img src="Project_files/CaMaFlood.jpg" alt="CaMa-Flood floodplain schematic showing river channel, floodplain cross-section and elevation profile" class="project-img">
         <div style="padding:18px 20px 20px">
           <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px">
             <span class="project-tag">Completed</span>
@@ -416,7 +442,7 @@ a.affil:focus-visible{outline:2px solid #5a8fc2;outline-offset:2px}
       </button>
 
       <button type="button" class="project-card" data-project="paddy">
-        <div class="img-placeholder"><span>paddy fields image 1200×750</span></div>
+        <img src="Project_files/Cropwaterreq.png" alt="Study area map: Gulbarga in Karnataka, and Pattambi and Udupi in Kerala and coastal Karnataka" class="project-img">
         <div style="padding:18px 20px 20px">
           <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px">
             <span class="project-tag">Completed</span>
@@ -430,7 +456,7 @@ a.affil:focus-visible{outline:2px solid #5a8fc2;outline-offset:2px}
       </button>
 
       <button type="button" class="project-card" data-project="krishna">
-        <div class="img-placeholder"><span>Krishna basin image 1200×750</span></div>
+        <img src="Project_files/HEC-HMS.jpg" alt="HEC-HMS watershed schematic of the Krishna basin showing subbasins and junctions" class="project-img">
         <div style="padding:18px 20px 20px">
           <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px">
             <span class="project-tag">Completed</span>
@@ -962,10 +988,10 @@ a.affil:focus-visible{outline:2px solid #5a8fc2;outline-offset:2px}
       <div class="card">
         <h3 class="sub-head" style="text-align:center;margin-bottom:12px">Languages</h3>
         <ul style="margin:0;padding:0;list-style:none;font-size:15.5px;line-height:1.8;color:#cbd5e1;text-align:center">
-          <li>Tamil (native)</li>
-          <li>English (full professional)</li>
-          <li>Malayalam (elementary)</li>
-          <li>Hindi (elementary)</li>
+          <li>Tamil (Native)</li>
+          <li>English (Full professional)</li>
+          <li>Malayalam (Elementary)</li>
+          <li>Hindi (Elementary)</li>
         </ul>
       </div>
     </div>
@@ -1067,7 +1093,7 @@ a.affil:focus-visible{outline:2px solid #5a8fc2;outline-offset:2px}
   </div>
 
   <div data-detail="wetlands">
-    <div class="img-placeholder" style="aspect-ratio:auto;height:230px;border-radius:14px 14px 0 0"><span>wetlands image 1200×750</span></div>
+    <img src="Project_files/CaMaFlood.jpg" alt="CaMa-Flood floodplain schematic showing river channel, floodplain cross-section and elevation profile" class="pm-hero">
     <div class="pm-inner">
       <h2 class="pm-title">Flood dynamics in East African wetlands</h2>
       <div class="pm-tags"><span class="project-tag">Completed</span><span class="project-tag">HydroJULES</span><span class="project-tag">CaMa-Flood</span></div>
@@ -1160,7 +1186,7 @@ a.affil:focus-visible{outline:2px solid #5a8fc2;outline-offset:2px}
   </div>
 
   <div data-detail="paddy">
-    <div class="img-placeholder" style="aspect-ratio:auto;height:230px;border-radius:14px 14px 0 0"><span>paddy fields image 1200×750</span></div>
+    <img src="Project_files/Cropwaterreq.png" alt="Study area map: Gulbarga in Karnataka, and Pattambi and Udupi in Kerala and coastal Karnataka" class="pm-hero">
     <div class="pm-inner">
       <h2 class="pm-title">Age-wise crop water requirement of paddy fields under different climatic conditions</h2>
       <div class="pm-tags"><span class="project-tag">Completed</span><span class="project-tag">MTech Thesis</span></div>
@@ -1189,7 +1215,7 @@ a.affil:focus-visible{outline:2px solid #5a8fc2;outline-offset:2px}
   </div>
 
   <div data-detail="krishna">
-    <div class="img-placeholder" style="aspect-ratio:auto;height:230px;border-radius:14px 14px 0 0"><span>Krishna basin image 1200×750</span></div>
+    <img src="Project_files/HEC-HMS.jpg" alt="HEC-HMS watershed schematic of the Krishna basin showing subbasins and junctions" class="pm-hero">
     <div class="pm-inner">
       <h2 class="pm-title">HEC-HMS runoff estimation in the Krishna Basin</h2>
       <div class="pm-tags"><span class="project-tag">Completed</span><span class="project-tag">IIRS · ISRO</span><span class="project-tag">Technical report</span></div>
@@ -1278,6 +1304,34 @@ a.affil:focus-visible{outline:2px solid #5a8fc2;outline-offset:2px}
 
   var body = document.body;
   var lastFocus = null;
+
+  /* ---------- Mobile nav ---------- */
+  var navToggle = document.getElementById('nav-toggle');
+  var navMenu = document.getElementById('nav-menu');
+
+  function setNav(open) {
+    navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    navToggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    if (open) { navMenu.setAttribute('data-open', 'true'); }
+    else { navMenu.removeAttribute('data-open'); }
+  }
+
+  navToggle.addEventListener('click', function (e) {
+    e.stopPropagation();
+    setNav(navToggle.getAttribute('aria-expanded') !== 'true');
+  });
+
+  navMenu.addEventListener('click', function (e) {
+    if (e.target.classList.contains('nav-link')) { setNav(false); }
+  });
+
+  document.addEventListener('click', function (e) {
+    if (navMenu.getAttribute('data-open') === 'true' && !navMenu.contains(e.target)) { setNav(false); }
+  });
+
+  window.addEventListener('resize', function () {
+    if (window.innerWidth > 768) { setNav(false); }
+  });
 
   /* ---------- Affiliation logos: fall back to a monogram until the file is added ---------- */
   document.querySelectorAll('.affil-logo img').forEach(function (img) {
@@ -1377,6 +1431,9 @@ a.affil:focus-visible{outline:2px solid #5a8fc2;outline-offset:2px}
       if (e.key === 'ArrowRight') { step(1); }
     } else if (projectModal.getAttribute('data-open') === 'true') {
       if (e.key === 'Escape') { closeModal(projectModal); }
+    } else if (e.key === 'Escape' && navMenu.getAttribute('data-open') === 'true') {
+      setNav(false);
+      navToggle.focus();
     }
   });
 })();
